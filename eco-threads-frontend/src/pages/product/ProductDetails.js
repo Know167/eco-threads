@@ -27,7 +27,9 @@ export const ProductDetails = () => {
         productStartDate: Yup.string().required("Date is required"),
         productEndDate: Yup.string().required("Date is required"),
         productDescription: Yup.string().required("Product Description is required"),
+        productCategory: Yup.string().required("Product Category is required"),
         productImage: Yup.string().required("Image is required"),
+        productPrice: Yup.number().required("Product Price is required")
     })
     const onSelectFile = (e, setFieldValue, setFieldError) => {
         const files = e.target.files;
@@ -54,145 +56,177 @@ export const ProductDetails = () => {
     return (
         <>
             <div className='product-details-page'>
-            <div className='product-detail-header'><h3>ProductDetails</h3></div>
-            
-            <div className='product-details-form'>
-                <Formik initialValues={{
-                    productTitle: "",
-                    productStartDate: null,
-                    productEndDate: null,
-                    productDescription: "",
-                    productImage: "",
-                }}
-                    validationSchema={ValidationSchema}
-                    onSubmit={data => {
+                <div className='product-detail-header'><h3>ProductDetails</h3></div>
 
-                    }}>
+                <div className='product-details-form'>
+                    <Formik initialValues={{
+                        productTitle: "",
+                        productStartDate: null,
+                        productEndDate: null,
+                        productDescription: "",
+                        productImage: "",
+                        productCategory:"",
+                        productPrice:""
+                    }}
+                        validationSchema={ValidationSchema}
+                        onSubmit={data => {
 
-                    {({ values, handleChange, handleBlur, errors, handleSubmit, touched, setFieldValue, setFieldError }) => (
-                        <form onSubmit={handleSubmit}>
-                            <div className="product-form-input-field">
-                                <TextField
-                                    label="Title"
-                                    name="productTitle"
-                                    type="productTitle"
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    variant="outlined"
-                                    sx={{ width: 100 + "%" }}
-                                />
-                                <ValidationErrorMessage message={errors.productTitle} touched={touched.productTitle} />
-                            </div>
-                            <div className='product-form-row'>
-                            <div className='product-form-input-field'>
+                        }}>
 
-                                <DemoContainer required components={["DatePicker", "DatePicker"]}>
-                                    <DatePicker
-                                        label="Start Date"
-                                        value={values.productStartDate}
-                                        required
-                                        format="DD-MM-YYYY"
+                        {({ values, handleChange, handleBlur, errors, handleSubmit, touched, setFieldValue, setFieldError }) => (
+                            <form onSubmit={handleSubmit}>
+                                <div className="product-form-input-field">
+                                    <TextField
+                                        label="Title"
+                                        name="productTitle"
+                                        type="productTitle"
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        variant="outlined"
                                         sx={{ width: 100 + "%" }}
-                                        onChange={(newValue) => setFieldValue("productStartDate", newValue)}
-                                        disablePast
                                     />
-                                </DemoContainer>
+                                    <ValidationErrorMessage message={errors.productTitle} touched={touched.productTitle} />
+                                </div>
+                                <div className='product-form-row'>
+                                    <div className='product-form-input-field'>
 
-                                <ValidationErrorMessage message={errors.productStartDate} touched={touched.productStartDate} />
-                            </div>
-                            
-                            <div className='product-form-input-field'>
-                                <DemoContainer required components={["DatePicker", "DatePicker"]}>
-                                    <DatePicker
-                                        label="End Date"
-                                        value={values.productEndDate}
-                                        required
-                                        format="DD-MM-YYYY"
-                                        sx={{ width: 100 + "%" }}
-                                        onChange={(newValue) => setFieldValue("productEndDate", newValue)}
-                                        disablePast
-                                    />
-                                </DemoContainer>
-
-                                <ValidationErrorMessage message={errors.productStartDate} touched={touched.productStartDate} />
-                            </div>
-                            </div>
-                            <div className="product-form-input-field">
-                                <TextField
-                                    id="outlined-multiline-static"
-                                    label="Description"
-                                    multiline
-                                    rows={4}
-                                    name="productDescription"
-                                    type="productDescription"
-                                    variant="outlined"
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    sx={{ width: 100 + "%" }}
-                                />
-                                <ValidationErrorMessage message={errors.productDescription} touched={touched.productDescription} />
-                            </div>
-                            <div className="product-form-input-field">
-                                {!values.productImage && (
-                                    <>
-                                        {" "}
-                                        <label
-                                            htmlFor="contained-button-file"
-                                            className="file-upload-btn"
-                                        >
-                                            <Input
-                                                id="contained-button-file"
-                                                type="file"
-                                                name="productImage"
-                                                inputProps={{ className: "small" }}
-                                                onBlur={handleBlur}
-                                                onChange={(e) => {
-                                                    onSelectFile(e, setFieldValue, setFieldError);
-                                                }}
+                                        <DemoContainer required components={["DatePicker", "DatePicker"]}>
+                                            <DatePicker
+                                                label="Start Date"
+                                                value={values.productStartDate}
+                                                required
+                                                format="DD-MM-YYYY"
+                                                sx={{ width: 100 + "%" }}
+                                                onChange={(newValue) => setFieldValue("productStartDate", newValue)}
+                                                disablePast
                                             />
+                                        </DemoContainer>
+
+                                        <ValidationErrorMessage message={errors.productStartDate} touched={touched.productStartDate} />
+                                    </div>
+
+                                    <div className='product-form-input-field'>
+                                        <DemoContainer required components={["DatePicker", "DatePicker"]}>
+                                            <DatePicker
+                                                label="End Date"
+                                                value={values.productEndDate}
+                                                required
+                                                format="DD-MM-YYYY"
+                                                sx={{ width: 100 + "%" }}
+                                                onChange={(newValue) => setFieldValue("productEndDate", newValue)}
+                                                disablePast
+                                            />
+                                        </DemoContainer>
+
+                                        <ValidationErrorMessage message={errors.productStartDate} touched={touched.productStartDate} />
+                                    </div>
+                                </div>
+                                <div className="product-form-input-field">
+                                    <TextField
+                                        id="outlined-multiline-static"
+                                        label="Description"
+                                        multiline
+                                        rows={4}
+                                        name="productDescription"
+                                        type="productDescription"
+                                        variant="outlined"
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        sx={{ width: 100 + "%" }}
+                                    />
+                                    <ValidationErrorMessage message={errors.productDescription} touched={touched.productDescription} />
+                                </div>
+                                <div className='product-form-input-field'>
+                                    <FormControl fullWidth>
+                                        <InputLabel id="demo-simple-select-label">Category</InputLabel>
+                                        <Select
+                                            labelId="demo-simple-select-label"
+                                            id="demo-simple-select"
+                                            value={values.productCategory}
+                                            name='productCategory'
+                                            label="Age"
+                                            onChange={handleChange}
+                                        >
+                                            <MenuItem value={"Shoes"}>Shoes</MenuItem>
+                                            <MenuItem value={"Clothes"}>Clothes</MenuItem>
+                                            <MenuItem value={"Accessories"}>Accessories</MenuItem>
+                                        </Select>
+                                    </FormControl>
+                                </div>
+                                <div className='product-form-input-field'>
+                                <TextField
+                                        label="Price"
+                                        name="productPrice"
+                                        type="productPrice"
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        variant="outlined"
+                                        sx={{ width: 100 + "%" }}
+                                    />
+                                    <ValidationErrorMessage message={errors.productPrice} touched={touched.productPrice} />
+                                
+                                </div>
+                                <div className="product-form-input-field">
+                                    {!values.productImage && (
+                                        <>
+                                            {" "}
+                                            <label
+                                                htmlFor="contained-button-file"
+                                                className="file-upload-btn"
+                                            >
+                                                <Input
+                                                    id="contained-button-file"
+                                                    type="file"
+                                                    name="productImage"
+                                                    inputProps={{ className: "small" }}
+                                                    onBlur={handleBlur}
+                                                    onChange={(e) => {
+                                                        onSelectFile(e, setFieldValue, setFieldError);
+                                                    }}
+                                                />
+                                                <Button
+                                                    variant="contained"
+                                                    component="span"
+                                                    className="btn pink-btn"
+                                                >
+                                                    Upload
+                                                </Button>
+                                            </label>
+                                            <ValidationErrorMessage
+                                                message={errors.productImage}
+                                                touched={touched.productImage}
+                                            />
+                                        </>
+                                    )}
+                                    {values.productImage && (
+                                        <div className="uploaded-file-name">
+                                            <em>
+                                                <img src={values.productImage} className="img-upload" width="30%" height="30%" alt="" />
+                                            </em>
                                             <Button
+                                                style={{ marginLeft: 2 + "rem" }}
                                                 variant="contained"
                                                 component="span"
-                                                className="btn pink-btn"
+                                                color="error"
+                                                onClick={() => {
+                                                    setFieldValue("productImage", "");
+                                                }}
                                             >
-                                                Upload
+                                                Remove
                                             </Button>
-                                        </label>
-                                        <ValidationErrorMessage
-                                            message={errors.productImage}
-                                            touched={touched.productImage}
-                                        />
-                                    </>
-                                )}
-                                {values.productImage && (
-                                    <div className="uploaded-file-name">
-                                        <em>
-                                            <img src={values.productImage} className="img-upload" width="30%" height="30%" alt="" />
-                                        </em>
-                                        <Button
-                                            style={{ marginLeft: 2 + "rem" }}
-                                            variant="contained"
-                                            component="span"
-                                            color="error"
-                                            onClick={() => {
-                                                setFieldValue("productImage", "");
-                                            }}
-                                        >
-                                            Remove
-                                        </Button>
-                                    </div>
-                                )}
+                                        </div>
+                                    )}
 
-                            </div>
-                            <div className="product-form-input-field">
-                                <Button variant="contained" color="primary" type="submit">
-                                    Submit
-                                </Button>
-                            </div>
-                        </form>
-                    )}
-                </Formik>
-            </div>
+                                </div>
+                                <div className="product-form-input-field">
+                                    <Button variant="contained" color="primary" type="submit">
+                                        Submit
+                                    </Button>
+                                </div>
+                            </form>
+                        )}
+                    </Formik>
+                </div>
             </div>
         </>
     )
