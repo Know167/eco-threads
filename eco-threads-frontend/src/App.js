@@ -1,15 +1,15 @@
-import './App.css';
-import MenuBar from './components/Layout/MenuBar';
-import Home from './pages/Home';
+import { Box } from "@mui/material";
+import "./App.css";
+import MenuBar from "./components/Layout/MenuBar";
+import Home from "./pages/Home";
 
 function App() {
-  return (
-    <div className="App">
-      <MenuBar>
-        <Home/>
-      </MenuBar>
-    </div>
-  );
+    return (
+        <Box component="main" sx={{ p: 3 }}>
+            <MenuBar />
+            <Home />
+        </Box>
+    );
 }
 
 export default App;
