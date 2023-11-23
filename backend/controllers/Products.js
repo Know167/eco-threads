@@ -33,7 +33,7 @@ export const getProductList = async (req, res, next) => {
 
     try {
         const { page = 1 } = req.query.limit
-        const { limit = 15 } = req.query.page
+        const{ limit = 15 } = req.query.page
         const noOfDocuments = await Product.countDocuments()
         const noOfPages = Math.ceil(noOfDocuments / limit)
         const ProductData = await Product.find()
@@ -58,14 +58,14 @@ export const updateProduct = async (req, res, next) => {
 
         console.log("update Product Data")
         
-        const productData = await Product.findById(userId)
+        const productData = await Product.findById(productId)
         const body = req.body
-
+        
         if (body.productId) throw new Error("You can not pass productId in the payload")
 
-
+        let productId = req.params.productId
         const updateProduct1 = await User.findByIdAndUpdate(
-            ProductId,
+            productId,
             { $set: body },
             { new: true } // updated version of the document will be returned
         )
@@ -87,8 +87,10 @@ export const updateProduct = async (req, res, next) => {
 }
 export const deleteProduct = async (req, res, next) => {
     try {
-        await Product.findByIdAndDelete(req.params.id)
-        res.status(200).json()
+        await Product.findOneAndDelete({productId : req.query.productId})
+        res.status(200).json({
+            message:"entered product deleted successfully"
+        })
     } catch (err) {
         next(err)
     }

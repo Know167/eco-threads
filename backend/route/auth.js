@@ -1,11 +1,11 @@
 import express from "express"
 import { login } from "../controllers/login.js";
-import { verifyAdmin } from "../utils/verifyToken.js";
+//import { verifyAdmin } from "../utils/verifyToken.js";
 
 const router = express.Router();
 
 router.post("/login",login)
-router.post("/isadmin", verifyAdmin, (req, res, next)=>{
+router.post("/isadmin", (req, res, next)=>{
     try{
         res.status(200).json({
             status:200,
