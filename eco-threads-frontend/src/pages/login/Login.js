@@ -1,5 +1,6 @@
 import React from 'react'
 import Link from '@mui/material/Link';
+import { getAuth,signInWithEmailAndPassword } from 'firebase/auth';
 import { useState } from "react";
 import {
     Container,
@@ -13,112 +14,80 @@ import {
     Avatar,
     Alert,
     InputAdornment,
-    IconButton
+    IconButton,
+    FormControl, InputLabel, Select, MenuItem
 } from "@mui/material";
 import "./Login.css"
+import * as Yup from "yup";
+import { ErrorMessage, Formik } from 'formik';
+import { ValidationErrorMessage } from '../../components/ValidationErrorMessage';
+
 export const Login = () => {
     const [showAlert, setShowAlert] = useState("");
-
-    // const navigate = useNavigate();
-
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        try {
-            const data = new FormData(event.currentTarget);
-            const form = {
-                userName: data.get("userName").trim(),
-                password: data.get("password").trim(),
-            };
-
-            const { userName, password } = form;
-            if (!(userName && password)) {
-                setShowAlert("Invalid username or password");
-                return;
-            }
-            //Login
-            // const res = await fetch(`${process.env.REACT_APP_API_BASE}/auth/login`, {
-            //     method: "POST",
-            //     body: JSON.stringify(form),
-            //     headers: {
-            //         "content-type": "application/json"
-            //     }
-            // });
-            // const response = await res.json();
-            // const { token, user, error } = response;
-            const res = { ok: true };
-            const error = "";
-
-            if (res.ok) {
-                // Cookies.set("token", token);
-
-                // navigate("/", { replace: true });
-                console.log(form);
-                setShowAlert("");
-            } else {
-                throw Error(error);
-            }
-        } catch (err) {
-            setShowAlert("Invalid username or password");
+    const [user, setUser] = useState();
+    const validationSchema = Yup.object().shape({
+        email: Yup.string().email("Email Format is not valid").required("Email is required"),
+        password: Yup.string().required("Password is required"),
+        
+    });
+    const auth = getAuth();
+    const authentication=(data)=>{
+        if(data){
+            
+            signInWithEmailAndPassword(auth,data.email, data.password).then((userCredential) => {
+                const userData = userCredential.userData;
+                localStorage.setItem("userData",JSON.stringify(data));
+            }).catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+            });
         }
-    };
-
+    }
     return (
-        <Container maxWidth="xs">
-            <Box
-                sx={{
-                    mt: 8,
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center"
-                }}
-            >
-                <img src="/lakehead.png" alt="Lakehead University" height="200rem" />
+        <div className="login-container">
+            <div className="login-form">
 
-                
-                <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-                    {showAlert && (
-                        <Alert severity="error" sx={{ mt: 3 }}>
-                            {showAlert}
-                        </Alert>
+                <img src="/lakehead.png" alt="Lakeheaf Logo" width="50%" height="50%" />
+
+                <Formik
+                    initialValues={{
+                        email: "",
+                        password: "",
+
+                    }}
+                    validationSchema={validationSchema}
+                    onSubmit={data => {
+                        let user = {
+                            email: data.email,
+                            password: data.password,
+
+                        }
+                        if(user){
+                            console.log(user)
+                            authentication(user); 
+                        }
+                    }
+                    }
+                >
+                    {({ values, handleChange, handleBlur, errors, handleSubmit, touched, setFieldValue, setFieldError }) => (
+                        <form onSubmit={handleSubmit}>
+                            <div className="login-form-input">
+                                <div className="email-input">
+                                    <TextField name="email" type='email' required label='Email' sx={{ width: 100 + "%" }} onChange={handleChange} onBlur={handleBlur} />
+                                    <ValidationErrorMessage message={errors.email} touched={errors.email} />
+                                </div>
+                                <div className="password-input">
+                                    <TextField name="password" type='password' required label='Password' sx={{ width: 100 + "%" }} onChange={handleChange} onBlur={handleBlur} />
+                                    <ValidationErrorMessage message={errors.password} touched={errors.password} />
+                                </div>
+                            </div>
+                            <div className="login-form-button">
+                                <Button variant='contained' fullWidth type="submit">Login</Button>
+                            </div>
+                        </form>
                     )}
-
-                    <TextField
-                        margin="normal"
-                        required
-                        fullWidth
-                        id="userName"
-                        label="Username"
-                        name="userName"
-                    />
-
-                    <TextField
-                        margin="normal"
-                        required
-                        fullWidth
-                        name="password"
-                        label="Password"
-                        id="password"
-                    />
-
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        sx={{ mt: 3, mb: 2 }}
-                    >
-                        Login
-                    </Button>
-
-                    <Grid container>
-                        <Grid item l>
-                            <Link href="#" variant="body2">
-                                Recover my account
-                            </Link>
-                        </Grid>
-                    </Grid>
-                    
-                </Box>
-            </Box>
-        </Container>
+                </Formik>
+            </div>
+        </div>
     );
 }
