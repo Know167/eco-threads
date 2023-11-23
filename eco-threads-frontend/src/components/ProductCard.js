@@ -6,7 +6,7 @@ function ProductCard(props) {
 
     return (
         <Card>
-            <a href={`/product/${product.slug}`}>
+            <a href={`/product/${product.id}`}>
                 <CardActionArea>
                     <CardMedia
                         component="img"
@@ -15,7 +15,7 @@ function ProductCard(props) {
                         }
                         title={product.name}></CardMedia>
                     <CardContent>
-                        <Typography>{product.brand}</Typography>
+                        {/* <Typography>{product.brand}</Typography> */}
                         <Rating value={product.rating} readOnly></Rating>
                     </CardContent>
                 </CardActionArea>
