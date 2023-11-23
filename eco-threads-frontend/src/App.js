@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import { ProductDetails } from './pages/product/ProductDetails';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
