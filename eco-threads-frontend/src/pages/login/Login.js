@@ -1,4 +1,5 @@
 import React from 'react'
+
 import Link from '@mui/material/Link';
 import { useState } from "react";
 import {
@@ -36,27 +37,27 @@ export const Login = () => {
                 return;
             }
             //Login
-            const res = await fetch(`${process.env.REACT_APP_API_BASE}/auth/login`, {
-                method: "POST",
-                body: JSON.stringify(form),
-                headers: {
-                    "content-type": "application/json"
-                }
-            });
-            const response = await res.json();
-            const { token, user, error } = response;
-            res = { ok: true };
-            error = "";
+            // const res = await fetch(`${process.env.REACT_APP_API_BASE}/auth/login`, {
+            //     method: "POST",
+            //     body: JSON.stringify(form),
+            //     headers: {
+            //         "content-type": "application/json"
+            //     }
+            // });
+            // const response = await res.json();
+            // const { token, user, error } = response;
+            // res = { ok: true };
+            // error = "";
 
-            if (res.ok) {
-                // Cookies.set("token", token);
+            // if (res.ok) {
+            //     // Cookies.set("token", token);
 
-                // navigate("/", { replace: true });
-                console.log(form);
-                setShowAlert("");
-            } else {
-                throw Error(error);
-            }
+            //     // navigate("/", { replace: true });
+            //     console.log(form);
+            //     setShowAlert("");
+            // } else {
+            //     throw Error(error);
+            // }
         } catch (err) {
             setShowAlert("Invalid username or password");
         }
@@ -69,13 +70,19 @@ export const Login = () => {
                     mt: 8,
                     display: "flex",
                     flexDirection: "column",
-                    alignItems: "center"
-                }}
-            >
-                <img src="/lakehead.png" alt="Lakehead University" height="200rem" />
+                    alignItems: "center",
+                }}>
+                <img
+                    src="/lakehead.png"
+                    alt="Lakehead University"
+                    height="200rem"
+                />
 
-                
-                <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+                <Box
+                    component="form"
+                    onSubmit={handleSubmit}
+                    noValidate
+                    sx={{ mt: 1 }}>
                     {showAlert && (
                         <Alert severity="error" sx={{ mt: 3 }}>
                             {showAlert}
@@ -99,15 +106,15 @@ export const Login = () => {
                         label="Password"
                         id="password"
                     />
-
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        sx={{ mt: 3, mb: 2 }}
-                    >
-                        Login
-                    </Button>
+                    <Link to="/home">
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            sx={{ mt: 3, mb: 2 }}>
+                            Login
+                        </Button>
+                    </Link>
 
                     <Grid container>
                         <Grid item l>
@@ -116,7 +123,6 @@ export const Login = () => {
                             </Link>
                         </Grid>
                     </Grid>
-                    
                 </Box>
             </Box>
         </Container>

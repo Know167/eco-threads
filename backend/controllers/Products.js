@@ -63,7 +63,7 @@ export const updateProduct = async (req, res, next) => {
         
         if (body.productId) throw new Error("You can not pass productId in the payload")
 
-        let productId = req.params.productId
+        let productId = req.query.productId
         const updateProduct1 = await User.findByIdAndUpdate(
             productId,
             { $set: body },
