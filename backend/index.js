@@ -3,7 +3,7 @@ import dotenv from 'dotenv'
 import cors from 'cors'
 import mongoose from 'mongoose'
 import authRoute from './route/auth.js'
-
+import productRoute from './route/product.js'
 const app = express()
 dotenv.config()
 
@@ -40,6 +40,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.static('public')
 )
 app.use("/api/auth", authRoute);
+app.use("/api/product",productRoute)
 
 app.listen(port, () => {
     connect()

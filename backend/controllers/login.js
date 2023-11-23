@@ -18,10 +18,8 @@ const generateAccessToken = (user) => {
 export const login = async (req, res, next) => {
     try{
         let user = null
-        let user1 = await UserAuth.find()
             user = await UserAuth.findOne({username: req.body.username})
         
-        console.log(user1)
         if(!user) return next(createError(404, "User not found"))
         let pass= req.body.password
         let databasepass = user.password
