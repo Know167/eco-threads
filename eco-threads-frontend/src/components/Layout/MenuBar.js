@@ -1,4 +1,6 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+
 import {
     Typography,
     Button,
@@ -13,6 +15,7 @@ import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 import MenuIcon from "@mui/icons-material/Menu";
 
 function MenuBar(props) {
+    const router = useNavigate();
     return (
         <Box sx={{ display: "flex" }}>
             <AppBar component="nav">
@@ -21,7 +24,8 @@ function MenuBar(props) {
                         color="inherit"
                         aria-label="open drawer"
                         edge="start"
-                        sx={{ mr: 2, display: { sm: "none" } }}>
+                        sx={{ mr: 2, display: { sm: "none" } }}
+                    >
                         <MenuIcon />
                     </IconButton>
                     <Typography
@@ -29,14 +33,17 @@ function MenuBar(props) {
                         component="div"
                         sx={{
                             flexGrow: 2,
-                          display: { xs: "none", sm: "block" },
-                            marginLeft: 6,fontWeight: 800
+                            display: { xs: "none", sm: "block" },
+                            marginLeft: 6,
+                            fontWeight: 800,
                         }}>
                         EcoThreads
                     </Typography>
                     <Box sx={{ display: { xs: "none", sm: "block" } }}>
-                        <Button key={"add_product"} sx={{ color: "#fff" }}>
-                            <AddIcon sx={{ m: 2 }} /> Add
+                        {" "}
+                        <Button key={"add_product"} sx={{ color: "#fff" }} onClick={router('/add-product')}>
+                                <AddIcon sx={{ m: 2 }} />
+                                Add
                         </Button>
                         <Button key={"wishlist"} sx={{ color: "#fff" }}>
                             <FavoriteBorderIcon sx={{ m: 2 }} /> Wishlist
