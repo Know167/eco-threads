@@ -12,7 +12,7 @@ const port = 8200
 const connect = async ()=> {
     try {
         await mongoose.connect(
-            "mongodb+srv://maazsibhai:maaz@cluster0.dilhdz7.mongodb.net/"
+            "MONGO_URL"
             // ,
             // { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true },
             // () => {
