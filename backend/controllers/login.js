@@ -23,8 +23,6 @@ export const login = async (req, res, next) => {
         if(!user) return next(createError(404, "User not found"))
         let pass= req.body.password
         let databasepass = user.password
-        console.log(pass)
-        console.log(databasepass)
 
         //const isPasswordCorrect = await comparePassword(req.body.password, user.password)
         if(databasepass == pass){
